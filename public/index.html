@@ -18,20 +18,8 @@
     <title>Awesome Amazing Terrific Assignment 5 By: Julio and Stephan</title>
 </head>
 
-<div class="ui fixed inverted menu">
-    <div class="ui container">
-      <a href="#" class="header item">
-        Assignment 5
-      </a>
-      <a href="#" class="item">By: Julio Cruz and Stephan Jones</a>
-      <a href="#" class="item">CPSC 473</a>
-      <a href="#" class="item">Proffesor Kennyt Avery</a>
-      </div>
-    </div>
-  </div>
-
 <body>
-    <div class="ui two column doubling stackable grid container">
+    <div class="ui three column doubling stackable grid container">
         <div class="column">
             <h2 class="ui center aligned teal image header">Trivia Game</h2>
             <p><b>Instructions:</b> Type in a question followed by an answer below. When you hit "Submit Your Question And Answer" your question and answer are saved in our database with a specific ID</p><br>
@@ -78,7 +66,8 @@
         </div>
         <div class="column">
             <h2 class="ui center aligned teal image header">Check Your Answer To A Question Via ID</h2>
-            <p><b>Instructions:</b> Type in a question's ID followed by an answer below. When you hit "Check Answer" your answer will be checked to see if it is the same answer as the question's answer to the ID you entered. I know its confusing so just try it out!</p>
+            <p><b>Instructions:</b> Type in a question's ID followed by an answer below. When you hit "Check Answer" your answer will be checked to see if it is the same answer as the question's answer to the ID you entered. I know its confusing so just
+                try it out!</p>
             <p><b><u>EXAMPLE</u></b></p>
             <p><b>ID:</b> 5</p>
             <p><b>Answer:</b> 42</p>
@@ -119,6 +108,16 @@
                     <button class="ui fluid primary button" id="getScoreFromDatabase">Get Score</button>
                 </div>
             </div>
+        </div>
+        <div class="column">
+          <div class="ui small form">
+              <div class="ui stacked segment">
+                  <div class="field">
+                      <input type="text" name='usernameInput' id="usernameInput" placeholder="Enter Username...">
+                  </div>
+                  <button class="ui fluid primary button" id="getUsername">Submit Username</button>
+              </div>
+          </div>
         </div>
     </div>
 </body>

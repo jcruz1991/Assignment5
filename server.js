@@ -8,6 +8,8 @@ var express = require('express'),
     redis = require('redis'),
     io = require('socket.io');
 
+var usersOnline = {};
+
 client = redis.createClient();
 
 client.on('connect', function() {
@@ -47,6 +49,12 @@ db.once('open', function() {
 app.get('/', function(req, res) {
     //res.render('index');
     res.sendFile(__dirname + '/index.html');
+});
+
+//Posting user
+app.post('/users', function(req, res) {
+    var user = req.body.Username;
+    usersOnline.push(user);
 });
 
 // Posting new question
@@ -132,10 +140,31 @@ app.get('/score', function(req, res) {
 // Add a connect listener
 io.on('connection', function(socket) {
 
-    console.log('user connected.');
+    /*
+  socket.on("join", function(username){
+  usersOnline[socket.id] = username;
+
+  io.emit("update", "You have connected to the server.");
+  io.emit("update", username + " has joined the server.");
+  io.emit("update-users", usersOnline);
+});
+
+socket.on("disconnect", function(){
+  io.sockets.emit("update", usersOnline[socket.id] + " has left the server.");
+  delete usersOnline[socket.id];
+  io.sockets.emit("update-users", usersOnline);
+});
+*/
+    socket.on('join', function(username) {
+        usersOnline[socket.id] = username;
+        console.log('User Connected: ', usersOnline[socket.id]);
+        io.emit('username', username);
+    });
 
     // Disconnect listener
     socket.on('disconnect', function() {
-        console.log('user disconnected.');
+      console.log('User Disconnected: ', usersOnline[socket.id]);
+      delete usersOnline[socket.id];
     });
+
 });

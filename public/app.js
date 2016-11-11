@@ -4,6 +4,14 @@ var main = function() {
     var socket = io.connect('http://localhost:3000', {
         reconnect: true
     });
+    $('#getUsername').on('click', function(event) {
+
+        if ($('#usernameInput').val() !== '') {
+            var username = $('#usernameInput').val();
+						socket.emit('join', username);
+        }
+        return false;
+    });
 
     $('#addQuestionToDatabase').on('click', function(event) {
 
