@@ -114,16 +114,6 @@ app.post('/answer', function(req, res) {
             });
         }
     });
-    // cursor.forEach(function(Question) {
-    //     if(Question._id == req.body.ID && Question.Answer == req.body.Answer) {
-    //         client.incr('right', function(err,result) {});
-    //         res.json({"correct": "true"});
-    //     }
-    //     else{
-    //         client.incr('wrong', function(err,result) {});
-    //         //res.json({"correct": "false"});
-    //     }
-    // });
 });
 
 app.get('/score', function(req, res) {
@@ -140,31 +130,19 @@ app.get('/score', function(req, res) {
 // Add a connect listener
 io.on('connection', function(socket) {
 
-    /*
-  socket.on("join", function(username){
-  usersOnline[socket.id] = username;
-
-  io.emit("update", "You have connected to the server.");
-  io.emit("update", username + " has joined the server.");
-  io.emit("update-users", usersOnline);
-});
-
-socket.on("disconnect", function(){
-  io.sockets.emit("update", usersOnline[socket.id] + " has left the server.");
-  delete usersOnline[socket.id];
-  io.sockets.emit("update-users", usersOnline);
-});
-*/
+    //Joined Users Listener
     socket.on('join', function(username) {
         usersOnline[socket.id] = username;
         console.log('User Connected: ', usersOnline[socket.id]);
         io.emit('username', username);
+        io.emit("update-users", usersOnline);
     });
 
-    // Disconnect listener
+    // Disconnected Users Listener
     socket.on('disconnect', function() {
-      console.log('User Disconnected: ', usersOnline[socket.id]);
-      delete usersOnline[socket.id];
+        console.log('User Disconnected: ', usersOnline[socket.id]);
+        delete usersOnline[socket.id];
+        io.emit("update-users", usersOnline);
     });
 
 });

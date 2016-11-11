@@ -4,13 +4,23 @@ var main = function() {
     var socket = io.connect('http://localhost:3000', {
         reconnect: true
     });
+
+    // Add New User
     $('#getUsername').on('click', function(event) {
 
         if ($('#usernameInput').val() !== '') {
             var username = $('#usernameInput').val();
-						socket.emit('join', username);
+            socket.emit('join', username);
         }
         return false;
+    });
+
+    // Update User List
+    socket.on("update-users", function(user) {
+        $("#users").empty();
+        $.each(user, function(clientID, name) {
+            $('#users').append("<li>" + name + "</li>");
+        });
     });
 
     $('#addQuestionToDatabase').on('click', function(event) {
