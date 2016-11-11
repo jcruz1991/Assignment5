@@ -61,11 +61,13 @@ app.post('/question', function(req, res) {
         };
 
         collection.insert([input], function(err, result) {
-            if(err){
+            if (err) {
                 console.log(err);
-            }
-            else{
-                res.json({'Question': input.Question, 'Answer': input.Answer});
+            } else {
+                res.json({
+                    'Question': input.Question,
+                    'Answer': input.Answer
+                });
             }
         });
     });
@@ -86,19 +88,22 @@ app.post('/answer', function(req, res) {
     collection.find().toArray(function(err, questions) {
         var index = 0;
         var found = 0;
-        while(index < questions.length && found != -1){
-             if(questions[index]._id == req.body.ID && questions[index].Answer == req.body.Answer) {
-                client.incr('right', function(err,result) {});
-                res.json({"correct": "true"});
+        while (index < questions.length && found != -1) {
+            if (questions[index]._id == req.body.ID && questions[index].Answer == req.body.Answer) {
+                client.incr('right', function(err, result) {});
+                res.json({
+                    "correct": "true"
+                });
                 found = -1;
             }
             index += 1;
         }
 
-        if(found === 0)
-        {
-            client.incr('wrong', function(err,result) {});
-            res.json({"correct": "false"});
+        if (found === 0) {
+            client.incr('wrong', function(err, result) {});
+            res.json({
+                "correct": "false"
+            });
         }
     });
     // cursor.forEach(function(Question) {
@@ -116,9 +121,10 @@ app.post('/answer', function(req, res) {
 app.get('/score', function(req, res) {
     client.get('right', function(err, right) {
         client.get('wrong', function(err, wrong) {
-            res.json({"right": right,
-                      "wrong": wrong
-                  });
+            res.json({
+                "right": right,
+                "wrong": wrong
+            });
         });
     });
 });
