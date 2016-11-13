@@ -43,6 +43,43 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
     console.log("Connected to Database");
+    console.log("Adding Questions to Database");
+    var collection = db.collection('questions');
+
+    var question1 = {
+        question: "Who was the second president of the United States?",
+        answer: "John Adams",
+        answerID: 1
+    };
+    var question2 = {
+        question: "Which 1979 film included a spaceship called Nostromo?",
+        answer: "Alien",
+        answerID: 2
+    };
+    var question3 = {
+        question: "Who directed the 1977 movie Star Wars?",
+        answer: "George Lucas",
+        answerID: 3
+    };
+    var question4 = {
+        question: "A shuttlecock is used in what sport?",
+        answer: "Badmiton",
+        answerID: 4
+    };
+    var question5 = {
+        question: "Superman is a fictional superhero from what fictional planet?",
+        answer: "Krypton",
+        answerID: 5
+    };
+
+    // Inserting into DB
+    collection.insert([question1, question2, question3, question4, question5], function(err, result) {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log('Inserted into database');
+        }
+    });
 });
 
 // Home Page
