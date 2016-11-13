@@ -11,6 +11,7 @@ var main = function() {
         if ($('#usernameInput').val() !== '') {
             var username = $('#usernameInput').val();
             socket.emit('join', username);
+            $('#userInputDiv').hide();
         }
         return false;
     });
