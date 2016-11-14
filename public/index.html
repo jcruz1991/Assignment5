@@ -8,24 +8,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css" />
     <link href="styles.css" rel="stylesheet" type="text/css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.4/semantic.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.4/semantic.min.js"></script>
-    <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
-    <script type="text/javascript" src="app.js"></script>
     <title>Awesome Amazing Terrific Assignment 5 By: Julio and Stephan</title>
 </head>
 
 <body>
     <div class="ui three column doubling stackable grid container">
-        <div class="column">
-            <h2 class="ui center aligned teal image header">Trivia Game</h2>
-            <p><b>Instructions:</b> Type in a question followed by an answer below. When you hit "Submit Your Question And Answer" your question and answer are saved in our database with a specific ID</p><br>
-            <p><b><u>EXAMPLE</u></b></p>
-            <p><b>Question:</b> Where are you taking this....thing?</p>
-            <p><b>Answer:</b> Prison transfer. Cell block 1138</p>
+        <div class="column" id="sign-in-form">
+            <div class="ui large form">
+                <div class="ui stacked segment" id="userInputDiv">
+                    <div class="field">
+                        <input type="text" name='usernameInput' id="usernameInput" placeholder="Enter Username...">
+                    </div>
+                    <button class="ui fluid primary button" id="getUsername">Submit Username</button>
+                </div>
+            </div>
+
+            <div class="ui small form">
+                <p><h2 class="ui center aligned teal image header">Users Online</h2></p>
+                <ul id="users"></ul>
+            </div>
+            <div id="scoreArea">
+                <h2 class="ui center aligned teal image header">Score</h2>
+                <p id="right"></p>
+                <p id="wrong"></p>
+            </div>
+             <button class="ui primary button" id="startNewRound">Start New Round</button>
+        </div>
+        <div class="column" id="answerForm">
+            <div>
+                <section id="answer_Two">
+                    <p class="result_Two_ID"></p>
+                    <p class="result_Two_Question"></p>
+                    <p class="correctAnswer"></p>
+                </section>
+            </div>
+            <div class="ui large form" id="questionForm">
+                <div class="ui stacked segment" id="userInputDiv">
+                    <div class="field">
+                        <input type="text" name='answerToCheck' id="answerInputFromAnswerForm" placeholder="Enter Answer...">
+                        <button class="ui fluid primary button" id="answerToCheckButton">Submit Answer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="column" id="newQuestionForm">
+            <h2 class="ui center aligned teal image header">Insert New Question and Answer to</h2>
             <div class="ui info message">
                 <section id="answer">
                     <p class="result"></p>
@@ -48,7 +75,7 @@
                     <button class="ui fluid primary button" id="addQuestionToDatabase">Submit Question And Answer</button>
                 </div>
             </div>
-            <h2 class="ui center aligned teal image header">Return a Question and It's ID</h2>
+            <!-- <h2 class="ui center aligned teal image header">Return a Question and It's ID</h2>
             <p><b>Instructions:</b> When you hit "Get Question" this will return a question from the database as well as the ID</p><br>
             <p><b><u>EXAMPLE</u></b></p>
             <p><b>Question:</b> Where are you taking this....thing?</p>
@@ -62,70 +89,17 @@
                 <div class="ui stacked segment">
                     <button class="ui fluid primary button" id="getQuestionFromDatabase">Get Question</button>
                 </div>
-            </div>
-        </div>
-        <div class="column">
-            <h2 class="ui center aligned teal image header">Check Your Answer To A Question Via ID</h2>
-            <p><b>Instructions:</b> Type in a question's ID followed by an answer below. When you hit "Check Answer" your answer will be checked to see if it is the same answer as the question's answer to the ID you entered. I know its confusing so just
-                try it out!</p>
-            <p><b><u>EXAMPLE</u></b></p>
-            <p><b>ID:</b> 5</p>
-            <p><b>Answer:</b> 42</p>
-            <div class="ui info message">
-                <section id="answer_Three">
-                    <p class="result_Three"></p>
-                </section>
-            </div>
-            <div class="ui large form">
-                <div class="ui stacked segment">
-                    <div class="field">
-                        <div class="ui left icon input">
-                            <i class="pied piper hat icon"></i>
-                            <input type="text" name="idInput" id="idInput" placeholder="Question ID...">
-                        </div>
-                    </div>
-                    <div class="field">
-                        <div class="ui left icon input">
-                            <i class="pied piper alternate icon"></i>
-                            <input type="text" name="answerInputTwo" id="answerInputTwo" placeholder="Answer to question...">
-                        </div>
-                    </div>
-                    <button class="ui fluid primary button" id="checkAnswerToQuestionInDatabase">Check Answer</button>
-                </div>
-            </div>
-            <h2 class="ui center aligned teal image header">Pull The Score From The Database</h2>
-            <p><b>Instructions:</b> When you hit "Get Score" this will return the score of right and wrong answers</p><br>
-            <p><b><u>EXAMPLE</u></b></p>
-            <p><b>Right:</b> 4</p>
-            <p><b>Wrong:</b> 2</p>
-            <div class="ui info message">
-                <section id="answer_Four">
-                    <p class="result_Four"></p>
-                </section>
-            </div>
-            <div class="ui large form">
-                <div class="ui stacked segment">
-                    <button class="ui fluid primary button" id="getScoreFromDatabase">Get Score</button>
-                </div>
-            </div>
-        </div>
-        <div class="column">
-            <div class="ui large form"  id="userInputDiv">
-                <div class="ui stacked segment">
-                    <div class="field">
-                        <input type="text" name='usernameInput' id="usernameInput" placeholder="Enter Username...">
-                    </div>
-                    <button class="ui fluid primary button" id="getUsername">Submit Username</button>
-                </div>
-            </div>
-
-            <div class="ui small form">
-                <p><h2 class="ui center aligned teal image header">Users Online</h2></p>
-                <ul id="users"></ul>
-            </div>
-
+            </div> -->
         </div>
     </div>
 </body>
-
+<footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.4/semantic.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.4/semantic.min.js"></script>
+    <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="app.js"></script>
+</footer>
 </html>
