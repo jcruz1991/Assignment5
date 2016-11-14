@@ -43,42 +43,82 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
     console.log("Connected to Database");
-    console.log("Adding Questions to Database");
+    console.log("Inserting Questions to the Database");
     var collection = db.collection('questions');
+    console.log("Inserting First");
+    client.incr('question_ID', function(err, ID) {
+        var collection = db.collection('questions');
+        var input = {
+            "Question": "What is the largets internal organ of the human body?",
+            "Answer": "Liver",
+            "_id": ID
+        };
 
-    var question1 = {
-        question: "Who was the second president of the United States?",
-        answer: "John Adams",
-        answerID: 1
-    };
-    var question2 = {
-        question: "Which 1979 film included a spaceship called Nostromo?",
-        answer: "Alien",
-        answerID: 2
-    };
-    var question3 = {
-        question: "Who directed the 1977 movie Star Wars?",
-        answer: "George Lucas",
-        answerID: 3
-    };
-    var question4 = {
-        question: "A shuttlecock is used in what sport?",
-        answer: "Badmiton",
-        answerID: 4
-    };
-    var question5 = {
-        question: "Superman is a fictional superhero from what fictional planet?",
-        answer: "Krypton",
-        answerID: 5
-    };
+        collection.insert([input], function(err, result) {
+            if (err) {
+                console.log(err);
+            }
+        });
+    });
+    console.log("Inserting Second");
+    client.incr('question_ID', function(err, ID) {
+        var collection = db.collection('questions');
+        var input = {
+            "Question": "Who came up with the three laws of motion?",
+            "Answer": "Sir Isaac Newton",
+            "_id": ID
+        };
 
-    // Inserting into DB
-    collection.insert([question1, question2, question3, question4, question5], function(err, result) {
-        if (err) {
-            console.log(err);
-        } else {
-            console.log('Inserted into database');
-        }
+        collection.insert([input], function(err, result) {
+            if (err) {
+                console.log(err);
+            }
+        });
+    });
+    console.log("Inserting Third");
+    client.incr('question_ID', function(err, ID) {
+        var collection = db.collection('questions');
+        var input = {
+            "Question": "What is the medical term for bad breath?",
+            "Answer": "Halitosis",
+            "_id": ID
+        };
+
+        collection.insert([input], function(err, result) {
+            if (err) {
+                console.log(err);
+            }
+        });
+    });
+    console.log("Inserting Fourth");
+    client.incr('question_ID', function(err, ID) {
+        var collection = db.collection('questions');
+        var input = {
+            "Question": "Penicillin is used to fight what type of infection?",
+            "Answer": "Bacterial",
+            "_id": ID
+        };
+
+        collection.insert([input], function(err, result) {
+            if (err) {
+                console.log(err);
+            }
+        });
+    });
+    console.log("Inserting Fifth");
+    client.incr('question_ID', function(err, ID) {
+        var collection = db.collection('questions');
+        var input = {
+            "Question": "Fe is the chemical symbol for what element?",
+            "Answer": "Iron",
+            "_id": ID
+        };
+
+        collection.insert([input], function(err, result) {
+            if (err) {
+                console.log(err);
+            }
+        });
     });
 });
 
@@ -121,8 +161,19 @@ app.post('/question', function(req, res) {
 
 app.get('/question', function(req, res) {
     var collection = db.collection('questions');
-    collection.find().toArray(function(err, questions) {
-        res.send(questions[0]);
+    var collectionSize = collection.count(function(err, collectionSize){
+        if(collectionSize == 1){
+            console.log(collectionSize);
+            collection.find().toArray(function(err, questions) {
+                res.send(questions[0]);
+            });
+        }
+        else if(collectionSize > 1){
+            console.log(Math.floor(Math.random() * (collectionSize)));
+            collection.find().toArray(function(err, questions) {
+                res.send(questions[Math.floor(Math.random() * (collectionSize))]);
+            });
+        }
     });
 });
 
@@ -181,5 +232,16 @@ io.on('connection', function(socket) {
         delete usersOnline[socket.id];
         io.emit("update-users", usersOnline);
     });
+
+    //Show Question on everyons page
+    socket.on('getQuestion', function(id, question) {
+        console.log('Showing Question ID : ' + id + " and Question: " + question);
+        io.emit("get-question", id, question);
+    })
+
+    socket.on('answer', function(correct) {
+        console.log('Showing if answer if correct: ' + correct);
+        io.emit("get-correct", usersOnline[socket.id], correct);
+    })
 
 });
