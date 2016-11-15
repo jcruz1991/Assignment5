@@ -161,14 +161,13 @@ app.post('/question', function(req, res) {
 
 app.get('/question', function(req, res) {
     var collection = db.collection('questions');
-    var collectionSize = collection.count(function(err, collectionSize){
-        if(collectionSize == 1){
+    var collectionSize = collection.count(function(err, collectionSize) {
+        if (collectionSize == 1) {
             console.log(collectionSize);
             collection.find().toArray(function(err, questions) {
                 res.send(questions[0]);
             });
-        }
-        else if(collectionSize > 1){
+        } else if (collectionSize > 1) {
             console.log(Math.floor(Math.random() * (collectionSize)));
             collection.find().toArray(function(err, questions) {
                 res.send(questions[Math.floor(Math.random() * (collectionSize))]);
@@ -237,11 +236,11 @@ io.on('connection', function(socket) {
     socket.on('getQuestion', function(id, question) {
         console.log('Showing Question ID : ' + id + " and Question: " + question);
         io.emit("get-question", id, question);
-    })
+    });
 
     socket.on('answer', function(correct) {
         console.log('Showing if answer if correct: ' + correct);
         io.emit("get-correct", usersOnline[socket.id], correct);
-    })
+    });
 
 });

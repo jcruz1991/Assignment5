@@ -69,7 +69,7 @@ var main = function() {
         }
         return false;
 
-    })
+    });
 
     $('#startNewRound').on('click', function(event) {
         $('#answer_Two .correctAnswer').empty();
