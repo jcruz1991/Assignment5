@@ -11,6 +11,14 @@ var main = function() {
         reconnect: true
     });
 
+    function AppViewModel() {
+        this.firstName = "Bert";
+        this.lastName = "Bertington";
+    }
+
+    // Activates knockout.js
+    ko.applyBindings(new AppViewModel());
+
     // Add New User
     $('#getUsername').on('click', function(event) {
         if ($('#usernameInput').val() !== '') {

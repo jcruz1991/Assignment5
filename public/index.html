@@ -8,10 +8,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css" />
     <link href="styles.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="knockout-3.4.1.js"></script>
     <title>Awesome Amazing Terrific Assignment 5 By: Julio and Stephan</title>
 </head>
 
 <body>
+    <p>First name: <strong data-bind="text: firstName"></strong></p>
+    <p>Last name: <strong data-bind="text: lastName"></strong></p>
+
     <div class="ui three column doubling stackable grid container">
         <div class="column" id="sign-in-form">
             <div class="ui large form">
@@ -26,6 +30,7 @@
             <div class="ui small form">
                 <p><h2 class="ui center aligned teal image header">Users Online</h2></p>
                 <ul id="users"></ul>
+                <p data-bind="text: userName"></p>
             </div>
             <div id="scoreArea">
                 <h2 class="ui center aligned teal image header">Score</h2>
