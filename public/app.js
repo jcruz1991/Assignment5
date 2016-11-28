@@ -11,14 +11,6 @@ var main = function() {
         reconnect: true
     });
 
-    function AppViewModel() {
-        this.firstName = "Bert";
-        this.lastName = "Bertington";
-    }
-
-    // Activates knockout.js
-    ko.applyBindings(new AppViewModel());
-
     // Add New User
     $('#getUsername').on('click', function(event) {
         if ($('#usernameInput').val() !== '') {
@@ -163,6 +155,32 @@ var main = function() {
         });
         return false;
     });
+
+    function QuestionModel() {
+        this.Question = ko.observable("hi");
+        this._id = ko.observable("2");
+
+        self.getQuestion = function() {
+            $('#answer_Two .correctAnswer').empty();
+            $('#answerInputFromAnswerForm').val('');
+            var question = this.Question;
+            var id = this._id;
+            $.get('question', {question, id}, function(res) {
+                socket.emit('getQuestion', res._id, res.Question);
+                question(res.Question);
+                id(res._id);
+                // if (res.length === 0) {
+                //     $('#answer_Two .result_Two').text('Database is Empty!');
+                // } else {
+                //     $('#answer_Two .result_Two').text('Question: ' + res.Question + " ID: " + res._id);
+                // }
+            });
+            return false;
+        }
+    }
+
+    // Activates knockout.js
+    ko.applyBindings(new QuestionModel());
 };
 
 $(document).ready(main);

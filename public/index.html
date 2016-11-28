@@ -13,8 +13,6 @@
 </head>
 
 <body>
-    <p>First name: <strong data-bind="text: firstName"></strong></p>
-    <p>Last name: <strong data-bind="text: lastName"></strong></p>
 
     <div class="ui three column doubling stackable grid container">
         <div class="column" id="sign-in-form">
@@ -30,20 +28,19 @@
             <div class="ui small form">
                 <p><h2 class="ui center aligned teal image header">Users Online</h2></p>
                 <ul id="users"></ul>
-                <p data-bind="text: userName"></p>
             </div>
             <div id="scoreArea">
                 <h2 class="ui center aligned teal image header">Score</h2>
                 <p id="right"></p>
                 <p id="wrong"></p>
             </div>
-             <button class="ui primary button" id="startNewRound">Start New Round</button>
+             <button data-bind="click: getQuestion" class="ui primary button">Start New Round</button>
         </div>
         <div class="column" id="answerForm">
             <div>
                 <section id="answer_Two">
-                    <p class="result_Two_ID"></p>
-                    <p class="result_Two_Question"></p>
+                    <p class="result_Two_ID"><span data-bind="text: _id"></span></p>
+                    <p class="result_Two_Question"><span data-bind="text: Question"></span></p>
                     <p class="correctAnswer"></p>
                 </section>
             </div>
